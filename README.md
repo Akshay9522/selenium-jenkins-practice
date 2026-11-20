@@ -1,28 +1,42 @@
-# Selenium Jenkins Practice
+# Selenium Java + Cucumber BDD + TestNG + Allure
 
-A small Selenium Java + TestNG + Maven Page Object Model project against https://www.saucedemo.com/.
+Practice project for Jenkins CI/CD with SauceDemo.
 
-## Prerequisites
-- JDK 17+
-- Maven 3.9+
+## Requirements
+- JDK 17+ (Java 21 works)
+- Maven 3.x
 - Google Chrome
-- Internet access for Maven dependencies and Selenium Manager browser driver setup
+- Internet connection for Maven dependencies and SauceDemo
 
-## Run locally
-```bash
+## Execute locally
+
+```powershell
 mvn clean test
-```
-
-Run headless (useful for Jenkins):
-```bash
 mvn clean test -Dheadless=true
+mvn clean test '-Dcucumber.filter.tags=@smoke' -Dheadless=true
+mvn clean test '-Dcucumber.filter.tags=@regression' -Dheadless=true
 ```
 
-Override application URL:
-```bash
-mvn clean test -DbaseUrl=https://www.saucedemo.com/
+On Jenkins **Invoke top-level Maven targets**, enter these goals without `mvn`:
+
+```
+clean test -Dheadless=true
 ```
 
-TestNG reports appear under `target/surefire-reports/`. Maven Surefire emits XML reports suitable for Jenkins JUnit publishing. This initial framework intentionally does not include Jenkinsfile or Allure; we'll add them together during training.
+For smoke only:
 
-**Note:** SauceDemo is a public demo website; test data and page structure may change. Browser and driver downloads may be required on first execution.
+```
+clean test -Dheadless=true -Dcucumber.filter.tags=@smoke
+```
+
+## Reports
+- Surefire XML: `target/surefire-reports/TEST-*.xml` (Jenkins JUnit publisher)
+- Cucumber HTML: `target/cucumber-report.html`
+- Allure results: `target/allure-results`
+
+To view Allure locally, install Allure CLI separately and run `allure serve target/allure-results`.
+For Jenkins, configure the Allure plugin and Allure commandline installation, then publish `target/allure-results`.
+
+This example captures screenshots **on failure** and attaches them to the Cucumber scenario / Allure adapter. Jenkins may need a browser-capable interactive agent or headless Chrome; use `-Dheadless=true`.
+
+Do not claim this is your existing workplace framework; it is a practice implementation.
