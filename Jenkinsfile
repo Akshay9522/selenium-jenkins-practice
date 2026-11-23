@@ -10,6 +10,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
+            echo 'SCM Polling Practical - GitHub change detected'
                 git branch: 'master',
                     url: 'https://github.com/Akshay9522/selenium-jenkins-practice.git'
             }
