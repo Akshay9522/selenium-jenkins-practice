@@ -10,7 +10,7 @@ pipeline{
     stages{
         stage('Checkout'){
             steps{
-            echo 'SCM Polling Practical - GitHub change detected'
+            echo 'GitHub Webhook Practical - Automatic Build Triggered'
                 git branch: 'master',
                     url: 'https://github.com/Akshay9522/selenium-jenkins-practice.git'
             }
